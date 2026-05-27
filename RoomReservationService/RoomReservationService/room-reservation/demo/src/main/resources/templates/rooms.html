@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rooms</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="page">
+
+    <div class="top-bar">
+        <h1>Available Rooms</h1>
+        <a href="/" class="btn dark small">Home</a>
+    </div>
+
+    <div class="room-grid">
+        <div class="room-card" th:each="room : ${rooms}">
+            <h3 th:text="${room.name}"></h3>
+
+            <p><strong>Seats:</strong>
+                <span th:text="${room.numberOfSeats}"></span>
+            </p>
+
+            <div th:if="${room.features != null and !room.features.isEmpty()}">
+                <p th:if="${room.features[0].elevatorAccess}">✅ Elevator</p>
+                <p th:if="${room.features[0].whiteboard}">✅ Whiteboard</p>
+                <p th:if="${room.features[0].projector}">✅ Projector</p>
+                <p th:if="${room.features[0].computerAccess}">✅ Computer</p>
+                <p th:if="${room.features[0].largeTable}">✅ Table</p>
+                <p th:if="${room.features[0].quietRoom}">✅ Quiet</p>
+            </div>
+
+            <a th:href="@{/book/{id}(id=${room.id})}" class="btn green small">Book</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

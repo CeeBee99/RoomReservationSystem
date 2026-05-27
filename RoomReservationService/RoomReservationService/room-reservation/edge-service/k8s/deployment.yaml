@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-service
+  template:
+    metadata:
+      labels:
+        app: edge-service
+    spec:
+      containers:
+        - name: edge-service
+          image: edge-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes

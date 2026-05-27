@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: overlap-engine
+spec:
+  selector:
+    app: overlap-engine
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

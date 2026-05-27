@@ -1,0 +1,28 @@
+services = [
+    "config-service",
+    "edge-service",
+    "event-processor",
+    "overlap-engine",
+    "reservation-access",
+    "reservation-manager",
+    "room-access",
+    "room-manager",
+]
+
+for svc in services:
+    if svc == "config-service":
+        docker_build(svc, ".", dockerfile="./config-service/Dockerfile")
+    else:
+        docker_build(svc, "./" + svc)
+    k8s_yaml("./" + svc + "/k8s/deployment.yaml")
+    k8s_yaml("./" + svc + "/k8s/service.yaml")
+    if svc == "edge-service":
+        k8s_resource(svc, port_forwards=8080)
+    else:
+        k8s_resource(svc)
+k8s_yaml('k8s/postgres.yaml')
+k8s_yaml('k8s/rabbitmq.yaml')
+k8s_yaml('edge-service/k8s/redis-deployment.yaml')
+k8s_yaml('edge-service/k8s/redis-service.yml')
+
+k8s_resource('rabbitmq', port_forwards=15672)

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservation-access
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservation-access
+  template:
+    metadata:
+      labels:
+        app: reservation-access
+    spec:
+      containers:
+        - name: reservation-access
+          image: reservation-access
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-processor
+  template:
+    metadata:
+      labels:
+        app: event-processor
+    spec:
+      containers:
+        - name: event-processor
+          image: event-processor
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes

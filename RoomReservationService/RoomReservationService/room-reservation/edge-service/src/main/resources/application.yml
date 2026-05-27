@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  application:
+    name: edge-service
+  config:
+    import: optional:configserver:http://config-service:8888
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  data:
+    redis:
+      host: redis
+      port: 6379
+      connect-timeout: 2s
+      timeout: 1s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+        

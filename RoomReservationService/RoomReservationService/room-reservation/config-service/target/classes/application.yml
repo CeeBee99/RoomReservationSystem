@@ -1,0 +1,21 @@
+server:
+  port: 8888
+  shutdown: graceful
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///config-repo
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+spring.lifecycle:
+  timeout-per-shutdown-phase: 20s

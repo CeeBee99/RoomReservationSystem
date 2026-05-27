@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room Reservation</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- HERO -->
+    <div class="hero-card">
+        <h1>Room Reservation</h1>
+        <p>Find and book a room easily.</p>
+
+        <div class="button-row">
+            <a href="/signup" class="btn green">Sign Up as Client</a>
+            <a href="/login" class="btn dark">Login as Admin</a>
+        </div>
+    </div>
+
+    <!-- ROOMS -->
+    <div class="rooms-section">
+        <h2>Available Rooms</h2>
+
+        <div class="rooms-grid">
+
+            <!-- ✅ LOOP -->
+            <div class="room-card" th:each="room : ${rooms}">
+
+                <h3 th:text="${room.name}"></h3>
+
+                <!-- ✅ FIXED FIELD -->
+                <p><strong>Seats:</strong> <span th:text="${room.seats}"></span></p>
+
+                <ul>
+                    <li th:if="${room.elevatorAccess}">Elevator Access</li>
+                    <li th:if="${room.projector}">Projector</li>
+                    <li th:if="${room.whiteboard}">Whiteboard</li>
+                    <li th:if="${room.computerAccess}">Computer Access</li>
+                    <li th:if="${room.largeTable}">Large Table</li>
+                    <li th:if="${room.quietRoom}">Quiet Room</li>
+                </ul>
+
+                <!-- 🟢 AVAILABLE -->
+                <div th:if="${!room.booked}">
+                    <p class="available">Available</p>
+
+                    <form th:action="@{/book/{id}(id=${room.id})}" method="post">
+
+                        <label>Start Time</label>
+                        <input type="datetime-local" name="startTime" required>
+
+                        <label>End Time</label>
+                        <input type="datetime-local" name="endTime" required>
+
+                        <button class="btn green" type="submit">Book Room</button>
+                    </form>
+                </div>
+
+                <!-- 🔴 BOOKED -->
+                <div th:if="${room.booked}">
+                    <p class="booked">Booked</p>
+
+                    <p>
+                        From:
+                        <span th:text="${room.bookingStart != null ? #temporals.format(room.bookingStart, 'yyyy-MM-dd HH:mm') : 'N/A'}"></span>
+                    </p>
+
+                    <p>
+                        To:
+                        <span th:text="${room.bookingEnd != null ? #temporals.format(room.bookingEnd, 'yyyy-MM-dd HH:mm') : 'N/A'}"></span>
+                    </p>
+
+                    <form th:action="@{/cancel/{id}(id=${room.id})}" method="post">
+                        <button class="btn danger" type="submit">Cancel Booking</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

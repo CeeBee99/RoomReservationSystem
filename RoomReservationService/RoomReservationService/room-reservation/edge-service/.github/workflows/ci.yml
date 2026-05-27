@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Build and test Maven services
+        run: |
+          find . -name "pom.xml" -not -path "*/target/*" -execdir mvn -B clean test \;
+
+  validate-k8s:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install kubeconform
+        run: |
+          curl -L https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz -o kubeconform.tar.gz
+          tar xzf kubeconform.tar.gz
+          sudo mv kubeconform /usr/local/bin/
+
+      - name: Validate Kubernetes manifests
+        run: |
+          files=$(find . -type f \( -name "*.yaml" -o -name "*.yml" \) | grep "/k8s/" || true)
+          if [ -z "$files" ]; then
+            echo "No Kubernetes manifests found."
+            exit 1
+          fi
+          kubeconform -strict -summary $files

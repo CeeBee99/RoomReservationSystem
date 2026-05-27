@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservation-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservation-manager
+  template:
+    metadata:
+      labels:
+        app: reservation-manager
+    spec:
+      containers:
+        - name: reservation-manager
+          image: reservation-manager
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kubernetes

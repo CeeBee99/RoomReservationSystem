@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Room</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fee2e2, #f8fafc);
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+        }
+
+        h1 {
+            text-align: center;
+            color: #991b1b;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+        }
+
+        .check label {
+            font-weight: normal;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #dc2626;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #b91c1c;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Create Room</h1>
+
+    <form method="post" action="/admin/home/create">
+        <label>Room Name</label>
+        <input type="text" name="name" required>
+
+        <label>Number of Seats</label>
+        <input type="number" name="numberOfSeats" min="1" required>
+
+        <div class="check">
+            <label><input type="checkbox" name="elevatorAccess"> Elevator Access</label>
+            <label><input type="checkbox" name="whiteboard"> Whiteboard</label>
+            <label><input type="checkbox" name="projector"> Projector</label>
+            <label><input type="checkbox" name="computerAccess"> Computer Access</label>
+            <label><input type="checkbox" name="largeTable"> Large Table</label>
+            <label><input type="checkbox" name="quietRoom"> Quiet Room</label>
+        </div>
+
+        <button type="submit" class="btn">Create Room</button>
+    </form>
+
+    <a href="/admin/home" class="back">Back to Admin</a>
+</div>
+
+</body>
+</html>

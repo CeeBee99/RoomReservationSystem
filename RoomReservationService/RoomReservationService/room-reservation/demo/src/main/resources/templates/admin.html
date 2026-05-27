@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="page">
+    <div class="hero-card">
+        <h1>Admin Panel</h1>
+        <p>Add or remove rooms.</p>
+        <a href="/" class="btn green">Back Home</a>
+    </div>
+
+    <div class="form-card">
+        <h2>Add New Room</h2>
+
+        <form th:action="@{/admin/add}" th:object="${room}" method="post">
+            <input type="text" th:field="*{name}" placeholder="Room name" required>
+            <input type="number" th:field="*{seats}" placeholder="Number of seats" required>
+
+            <label><input type="checkbox" th:field="*{elevatorAccess}"> Elevator Access</label>
+            <label><input type="checkbox" th:field="*{projector}"> Projector</label>
+            <label><input type="checkbox" th:field="*{whiteboard}"> Whiteboard</label>
+            <label><input type="checkbox" th:field="*{computerAccess}"> Computer Access</label>
+            <label><input type="checkbox" th:field="*{largeTable}"> Large Table</label>
+            <label><input type="checkbox" th:field="*{quietRoom}"> Quiet Room</label>
+
+            <button class="btn green" type="submit">Add Room</button>
+        </form>
+    </div>
+
+    <section class="rooms-section">
+        <h2>All Rooms</h2>
+
+        <div class="rooms-grid">
+            <div class="room-card" th:each="room : ${rooms}">
+                <h3 th:text="${room.name}"></h3>
+                <p><strong>Seats:</strong> <span th:text="${room.seats}"></span></p>
+
+                <p th:if="${room.booked}" class="booked">Booked</p>
+                <p th:if="${!room.booked}" class="available">Available</p>
+
+                <form th:action="@{/admin/delete/{id}(id=${room.id})}" method="post">
+                    <button class="btn danger" type="submit">Remove Room</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

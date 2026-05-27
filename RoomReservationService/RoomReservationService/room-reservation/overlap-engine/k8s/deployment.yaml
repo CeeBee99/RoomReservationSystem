@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overlap-engine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: overlap-engine
+  template:
+    metadata:
+      labels:
+        app: overlap-engine
+    spec:
+      containers:
+        - name: overlap-engine
+          image: overlap-engine
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
